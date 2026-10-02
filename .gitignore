@@ -1,0 +1,11 @@
+# Large binary archives and raw textbook PDF (exceeds GitHub recommended limits)
+*.rar
+*.zip
+*.pdf
+scratch/
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

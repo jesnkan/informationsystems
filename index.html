@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MIS Exam Prep | 5-Hour Emergency Cram Portal</title>
+  <meta name="description" content="High-yield emergency revision portal for Information System Services Management (Laudon MIS 17th Edition). Includes Cram Radar, 50+ Past MCQs with Distractor Analysis, and Section B Worked Templates.">
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- CDN KaTeX for Math & Capital Budgeting Formulas -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- TOP HEADER & COUNTDOWN TIMER -->
+    <header class="top-header">
+      <div class="header-top-row">
+        <div class="course-meta">
+          <div class="course-badges">
+            <span class="badge badge-amber">⚡ Exam in 5 Hours</span>
+            <span class="badge badge-cyan">MIS-301 / ISSM</span>
+            <span class="badge badge-purple">Laudon 17th Global Edition</span>
+          </div>
+          <h1 class="course-title">Information System Services Management</h1>
+          <p class="course-sub">High-Yield Medical/Engineering-Grade Revision Portal • Pure Offline Single-Page App</p>
+        </div>
+
+        <!-- Adrenaline Countdown Widget -->
+        <div class="countdown-box">
+          <div class="countdown-pulse-icon" id="pulseIndicator"></div>
+          <div class="countdown-info">
+            <span class="countdown-label" id="timerStatusLabel">Emergency Cram Timer</span>
+            <span class="countdown-digits" id="timerDisplay">05:00:00</span>
+          </div>
+          <div class="countdown-controls">
+            <button class="btn-ctrl" id="btnTimerToggle" title="Pause or Resume Timer">Pause</button>
+            <button class="btn-ctrl" id="btnTimerReset" title="Reset to 5 Hours">Reset</button>
+            <button class="btn-ctrl" id="btnTimerAdd15" title="Add 15 Minutes">+15m</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Revision Stats Bar -->
+      <div class="stats-bar">
+        <div class="stat-item">
+          <div class="stat-icon">🚨</div>
+          <div class="stat-content">
+            <span class="stat-val" id="statCramMastered">0 / 20</span>
+            <span class="stat-lbl">Radar Topics Mastered</span>
+          </div>
+        </div>
+
+        <div class="stat-item">
+          <div class="stat-icon">⚡</div>
+          <div class="stat-content">
+            <span class="stat-val" id="statQuizScore">0 / 50 (0%)</span>
+            <span class="stat-lbl">Interactive Quiz Accuracy</span>
+          </div>
+        </div>
+
+        <div class="stat-item">
+          <div class="stat-icon">✍️</div>
+          <div class="stat-content">
+            <span class="stat-val" id="statSecBReviewed">0 / 10</span>
+            <span class="stat-lbl">Section B Templates Studied</span>
+          </div>
+        </div>
+
+        <div class="stat-item">
+          <div class="stat-icon">📖</div>
+          <div class="stat-content">
+            <span class="stat-val" id="statGlossaryCount">40+</span>
+            <span class="stat-lbl">Formulas & Core Terms</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- TOP ACTION & SEARCH TRIGGER BAR -->
+    <div class="top-action-bar">
+      <!-- Navigation Tabs -->
+      <nav class="nav-tabs" role="tablist">
+        <button class="tab-btn active" data-tab="tab-cram" id="btnTabCram" role="tab" aria-selected="true">
+          <span>🚨</span> 5-Hour Cram Radar <span class="tab-count" id="badgeCramCount">20</span>
+        </button>
+        <button class="tab-btn" data-tab="tab-quiz" id="btnTabQuiz" role="tab" aria-selected="false">
+          <span>⚡</span> Rapid-Fire Quiz <span class="tab-count" id="badgeQuizCount">50</span>
+        </button>
+        <button class="tab-btn" data-tab="tab-secb" id="btnTabSecB" role="tab" aria-selected="false">
+          <span>✍️</span> Section B Templates <span class="tab-count">10</span>
+        </button>
+        <button class="tab-btn" data-tab="tab-glossary" id="btnTabGlossary" role="tab" aria-selected="false">
+          <span>📖</span> Cheat Sheet & Formulas <span class="tab-count" id="badgeGlossaryCount">42</span>
+        </button>
+      </nav>
+
+      <!-- Search Trigger Input -->
+      <div class="search-input-wrapper">
+        <span class="search-icon">🔍</span>
+        <input type="text" class="search-input" id="globalSearchInput" placeholder="Search questions, formulas, or concepts... (Press /)">
+        <span class="kbd-shortcut">/</span>
+      </div>
+    </div>
+
+    <!-- ====================================================================
+         TAB 1: 5-HOUR EMERGENCY CRAM RADAR (TOP PRIORITY)
+         ==================================================================== -->
+    <section class="tab-content active" id="tab-cram" role="tabpanel">
+      <!-- Filter Bar -->
+      <div class="filter-bar">
+        <div class="filter-group" id="cramFilterGroup">
+          <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); margin-right: 0.25rem;">Filter Topics:</span>
+          <button class="filter-chip active" data-filter="all">All Topics (20)</button>
+          <button class="filter-chip" data-filter="needs-review">⚠️ Needs Review (<span id="cramNeedsReviewCount">20</span>)</button>
+          <button class="filter-chip" data-filter="mastered">✅ Mastered (<span id="cramMasteredCount">0</span>)</button>
+        </div>
+
+        <div style="display: flex; gap: 0.5rem;">
+          <button class="btn-ctrl" id="btnMarkAllCram">Mark All Mastered</button>
+          <button class="btn-ctrl" id="btnUnmarkAllCram">Reset Checklist</button>
+        </div>
+      </div>
+
+      <!-- Cram Cards List -->
+      <div class="cram-grid" id="cramCardsContainer">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         TAB 2: RAPID-FIRE INTERACTIVE QUIZ & PAST QUESTIONS
+         ==================================================================== -->
+    <section class="tab-content" id="tab-quiz" role="tabpanel">
+      <!-- Live Score Dashboard -->
+      <div class="quiz-dashboard">
+        <div class="quiz-score-display">
+          <div class="quiz-score-badge">
+            <span class="quiz-score-val" id="quizLiveAccuracy">0%</span>
+            <span class="quiz-score-lbl">Current Accuracy</span>
+          </div>
+
+          <div class="quiz-score-badge">
+            <span class="quiz-score-val" style="color: #ffffff;" id="quizLiveScore">0 / 0</span>
+            <span class="quiz-score-lbl">Correct Answers</span>
+          </div>
+
+          <div class="quiz-score-badge">
+            <span class="quiz-score-val" style="color: var(--accent-amber-light);" id="quizLiveStreak">0 🔥</span>
+            <span class="quiz-score-lbl">Current Streak</span>
+          </div>
+        </div>
+
+        <div class="quiz-controls-row">
+          <!-- Module Filter Dropdown -->
+          <select class="select-filter" id="quizModuleSelect">
+            <option value="all">All Modules (Ch 1 - 15)</option>
+            <option value="Foundations">Ch 1-2: MIS Foundations & Processes</option>
+            <option value="Strategy">Ch 3-4: Strategy, Porter & Ethics</option>
+            <option value="Infrastructure">Ch 5-8: Hardware, Cloud, DB, Telecom & Security</option>
+            <option value="Enterprise Apps">Ch 9-12: ERP, SCM, CRM, E-Commerce & AI/BI</option>
+            <option value="Systems Building">Ch 13-14: SDLC, BPM, Conversion & Project Mgmt</option>
+            <option value="Global Systems">Ch 15: Global Information Systems</option>
+          </select>
+
+          <!-- Mistakes Only Filter -->
+          <label class="toggle-switch-wrapper">
+            <input type="checkbox" id="chkReviewMistakesOnly">
+            <span>Review Mistakes Only (<span id="quizMistakesBadge">0</span>)</span>
+          </label>
+
+          <button class="btn-ctrl" id="btnResetQuiz">Reset Quiz</button>
+        </div>
+      </div>
+
+      <!-- Quiz Questions List -->
+      <div class="quiz-list" id="quizQuestionsContainer">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         TAB 3: SECTION B / THEORY "FULL-CREDIT" TEMPLATES
+         ==================================================================== -->
+    <section class="tab-content" id="tab-secb" role="tabpanel">
+      <div class="secb-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="secb-nav-sidebar">
+          <div class="secb-nav-title">High-Yield Section B Problems</div>
+          <div id="secbNavList">
+            <!-- Nav buttons generated dynamically -->
+          </div>
+        </aside>
+
+        <!-- Main Display Card -->
+        <main class="secb-display-card" id="secbActiveDisplay">
+          <!-- Rendered dynamically by app.js -->
+        </main>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         TAB 4: SEARCHABLE CHEAT SHEET & GLOSSARY
+         ==================================================================== -->
+    <section class="tab-content" id="tab-glossary" role="tabpanel">
+      <!-- Category Filter Chips -->
+      <div class="filter-bar">
+        <div class="filter-group" id="glossaryFilterGroup">
+          <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); margin-right: 0.25rem;">Category:</span>
+          <button class="filter-chip active" data-category="all">All</button>
+          <button class="filter-chip" data-category="Formulas & Financial Models">Formulas & Capital Budgeting</button>
+          <button class="filter-chip" data-category="Laws & Economics">Laws & Economics</button>
+          <button class="filter-chip" data-category="Supply Chain">Supply Chain</button>
+          <button class="filter-chip" data-category="Security">Security & Risk</button>
+          <button class="filter-chip" data-category="Databases & BI">Databases & BI</button>
+          <button class="filter-chip" data-category="Infrastructure">Infrastructure & Cloud</button>
+          <button class="filter-chip" data-category="Enterprise Apps">Enterprise Systems</button>
+          <button class="filter-chip" data-category="Ethics & Legal">Ethics & Legal</button>
+        </div>
+      </div>
+
+      <!-- Glossary Grid -->
+      <div class="glossary-grid" id="glossaryCardsContainer">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ====================================================================
+       GLOBAL SEARCH MODAL
+       ==================================================================== -->
+  <div class="modal-overlay" id="searchModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span style="font-size: 1.25rem;">🔍</span>
+        <input type="text" class="modal-search-input" id="modalSearchInput" placeholder="Search across all 15 chapters (topics, formulas, past MCQs)...">
+        <button class="modal-close-btn" id="btnCloseModal" title="Close Search (Esc)">✕</button>
+      </div>
+      <div class="modal-results-list" id="modalResultsList">
+        <p style="color: var(--text-dim); font-size: 0.9rem; text-align: center; padding: 2rem 0;">Type at least 2 characters to search everything...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div class="toast" id="toastNotification">
+    <span id="toastIcon">📋</span>
+    <span id="toastMsg">Copied to clipboard!</span>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
